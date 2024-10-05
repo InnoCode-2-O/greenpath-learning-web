@@ -8,11 +8,13 @@ const Sign = () => {
   const [isSignUp, setIsSignUp] = useState(true);
   const navigate = useNavigate();
 
-  const auth = localStorage.getItem("user");
   // useEffect(() => {
-  //   if (auth) {
+  //   const user = localStorage.getItem("user");
+  //   let auth;
+  //   try {
+  //     auth = JSON.parse(user).email;
   //     navigate("/");
-  //   }
+  //   } catch (err) {}
   // }, []);
   const switchLogSign = () => {
     setIsSignUp(!isSignUp);

@@ -3,10 +3,10 @@ import React from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const navigate = useNavigate();
+
   const logOutUser = ( ) =>{
     localStorage.removeItem("user");
-    navigate("/sign");
+
   }
   return (
     <header className="px-4 lg:px-6 h-16 flex items-center">
@@ -37,7 +37,7 @@ const Navbar = () => {
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
-          to={""}
+          to={"/sign"}
           onClick={logOutUser}        >
           Logout
         </Link>
