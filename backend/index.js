@@ -1,8 +1,8 @@
 const express = require("express");
-require("./Db/connect");
+require("./connect");
 const cors = require("cors");
 // const postUrl = require("./Db/routes/user")
-const User = require("./Db/models/user");
+const User = require("./models/user");
 
 
 const app = express();
