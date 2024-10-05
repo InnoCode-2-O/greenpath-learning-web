@@ -23,9 +23,9 @@ const Navbar = () => {
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
-          to={"/learn"}
+          to={"/quiz"}
         >
-          Learn
+          Quiz
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"

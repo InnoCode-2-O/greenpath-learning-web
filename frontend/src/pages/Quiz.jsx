@@ -1,25 +1,59 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const chapters = [
   {
-    name: "Chapter 1: Introduction to Biology",
-    subchapters: ["1.1 What is Biology?", "1.2 Characteristics of Life"],
+    name: "Question 1: Introduction to SDGs",
+    subchapters: ["1.1 What is SDGs?", "1.2 Characteristics of Life"],
   },
   {
-    name: "Chapter 2: Cell Biology",
-    subchapters: ["2.1 Cell Structure", "2.2 Cell Function"],
+    name: "Question 2: Production",
+    subchapters: ["2.1 CO2 emission", "2.2 Cell Function"],
   },
   {
-    name: "Chapter 3: Genetics",
-    subchapters: ["3.1 DNA and RNA", "3.2 Inheritance"],
+    name: "Question 3: Consumtion",
+    subchapters: ["3.1 Water Resources", "3.2 Inheritance"],
   },
 ];
 
 const Quiz = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [allQuest, setAllQuest] = useState();
+  const [id, setId] = useState(0);
+  const [count, setCount] = useState(0);
+  const [statement, setStatement] = useState();
+  const allQuestions = async () => {
+    const resp = await fetch("http://localhost:5000/quiz/quizzes/");
+    const data = await resp.json();
+    setAllQuest(data[0].questions);
+    console.log(data[0].questions);
+    // console.log(allQuest);
+  };
+  useEffect(() => {
+    allQuestions();
+    // console.log(,)
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const nextQuiz = () => {
+    if (count >= 3) return;
+    setCount((prev) => prev + 1);
+  };
+  const prevQuiz = () => {
+    if (count <= 0) return;
+    setCount((prev) => prev - 1);
+  };
+  const check = (r) => {
+    let correctIndex = allQuest[count]?.correctOption;
+
+    console.log(r, allQuest[count].options[correctIndex]);
+    if (r == allQuest[count].options[correctIndex]) {
+      setStatement("Correct !");
+    } else {
+      setStatement("Wrong !");
+    }
   };
 
   return (
@@ -97,7 +131,10 @@ const Quiz = () => {
       </aside>
 
       <main className="col-span-3 flex flex-col gap-4 px-4">
-        <button onClick={toggleSidebar} className="w-fit p-2 rounded-md mt-4 bg-gray-200 md:hidden">
+        <button
+          onClick={toggleSidebar}
+          className="w-fit p-2 rounded-md mt-4 bg-gray-200 md:hidden"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -114,31 +151,49 @@ const Quiz = () => {
           </svg>
         </button>
         <div className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-left">
-          1. Question 1
+          {allQuest ? allQuest[count]?.title : console.log()}
         </div>
-        <div className="image grow"></div>
+        <div className="">
+          {/* {allQuest ? (
+            <img className="w-[200px]" src={allQuest[count]?.image} />
+          ) : (
+            <div></div>
+          )} */}
+        </div>
 
         <div className="grid grid-cols-2 gap-4 w-full">
-          <button className="px-4 py-4 border border-gray-400 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300">
-            lorem20
-          </button>
-          <button className="px-4 py-4 border border-gray-400 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300">
-            lorem20
-          </button>
-          <button className="px-4 py-4 border border-gray-400 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300">
-            lorem20
-          </button>
-          <button className="px-4 py-4 border border-gray-400 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300">
-            lorem20
-          </button>
+          {allQuest ? (
+            allQuest[count]?.options.map((r) => {
+              return (
+                <button
+                  className="px-4 py-4 border border-gray-400 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300"
+                  onClick={() => check(r)}
+                >
+                  {r}
+                </button>
+              );
+            })
+          ) : (
+            <div></div>
+          )}
+          {statement == "Correct !" ? (
+            <div className="bg-green-300 p-2 rounded-md">{statement}</div>
+          ) : (
+            <div className="bg-red-300  rounded-md">{statement}</div>
+          )}
         </div>
-
         <div className="bottom flex justify-between px-8">
-          <button className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded transition-colors duration-300 prev">
+          <button
+            className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded transition-colors duration-300 prev"
+            onClick={prevQuiz}
+          >
             Prev
           </button>
-          <div className="prog text-gray-400">3/5</div>
-          <button className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded transition-colors duration-300 next">
+          <div className="prog text-gray-400">{count + 1}/4</div>
+          <button
+            className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded transition-colors duration-300 next"
+            onClick={nextQuiz}
+          >
             Next
           </button>
         </div>

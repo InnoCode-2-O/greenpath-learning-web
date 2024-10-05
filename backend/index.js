@@ -5,6 +5,7 @@ const cors = require("cors");
 const User = require("./models/user");
 const { default: axios } = require("axios");
 require("dotenv").config();
+const quizRouter = require("./routes/quiz");
 
 const app = express();
 app.use(cors());
@@ -38,6 +39,8 @@ app.post("/login", async (req, res) => {
     res.send({ result: "Invalid credentials" });
   }
 });
+app.use("/quiz", quizRouter);
 
+quizRouter;
 
 app.listen(5000);
