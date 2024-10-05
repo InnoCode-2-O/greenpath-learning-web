@@ -3,11 +3,9 @@ import React from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-
-  const logOutUser = ( ) =>{
+  const logOutUser = () => {
     localStorage.removeItem("user");
-
-  }
+  };
   return (
     <header className="px-4 lg:px-6 h-16 flex items-center">
       <Link className="flex items-center justify-center" href="/">
@@ -25,20 +23,21 @@ const Navbar = () => {
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
-          href="#"
+          to={"/learn"}
         >
-          Courses
+          Learn
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
-          to={"/about"}
+          to={"/achivements"}
         >
-          About
+          Achivements
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
           to={"/sign"}
-          onClick={logOutUser}        >
+          onClick={logOutUser}
+        >
           Logout
         </Link>
       </nav>

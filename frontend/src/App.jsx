@@ -6,9 +6,13 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import About from "./pages/About";
+import About from "./pages/Learn";
 import PrivateComponent from "./components/PrivateComponent";
 import Sign from "./pages/Sign";
+import Achivements from "./pages/Achivements";
+import Learn from "./pages/Learn";
+
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,10 +24,10 @@ function App() {
         <Routes>
           <Route element={<PrivateComponent />}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            {/* <Route path="/" element={<Home />}/> */}
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/achivements" element={<Achivements />} />
           </Route>
-            <Route path="/sign" element={<Sign />} />
+          <Route path="/sign" element={<Sign />} />
         </Routes>
       </BrowserRouter>
     </>
