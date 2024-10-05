@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./pages/About";
+import PrivateComponent from "./components/PrivateComponent";
+import Sign from "./pages/Sign";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,9 +18,12 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          {/* <Route path="/" element={<Home />}/> */}
+          <Route element={<PrivateComponent />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            {/* <Route path="/" element={<Home />}/> */}
+          </Route>
+            <Route path="/sign" element={<Sign />} />
         </Routes>
       </BrowserRouter>
     </>

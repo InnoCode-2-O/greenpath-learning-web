@@ -1,8 +1,13 @@
 import { GlobeIcon } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const logOutUser = ( ) =>{
+    localStorage.removeItem("user");
+    navigate("/sign");
+  }
   return (
     <header className="px-4 lg:px-6 h-16 flex items-center">
       <Link className="flex items-center justify-center" href="/">
@@ -33,8 +38,8 @@ const Navbar = () => {
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
           to={""}
-        >
-          Contact
+          onClick={logOutUser}        >
+          Logout
         </Link>
       </nav>
     </header>
