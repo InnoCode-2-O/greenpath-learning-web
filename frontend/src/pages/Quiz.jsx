@@ -29,12 +29,16 @@ const Quiz = () => {
   const [id, setId] = useState(0);
   const [count, setCount] = useState(0);
   const [statement, setStatement] = useState();
+  const [answers, setAnswers] = useState([{ questionId: null, selectedOption: null }, { questionId: null, selectedOption: null }, { questionId: null, selectedOption: null }, { questionId: null, selectedOption: null }]);
+  const [quizId, setQuizId] = useState("");
+
   const allQuestions = async () => {
     const resp = await fetch(
       "https://greenpath-learning-web.onrender.com/quiz/quizzes/"
     );
     const data = await resp.json();
     setAllQuest(data[0].questions);
+    setQuizId(data[0]._id);
     console.log(data[0].questions);
     // console.log(allQuest);
   };
@@ -45,6 +49,30 @@ const Quiz = () => {
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const saveAnswer = (r, quesID) => {
+    setAnswers(() => {
+      let newAns = [...answers];
+      newAns[count] = {
+        questionId: quesID,
+        selectedOption: r,
+      };
+      console.log(newAns);
+      return newAns;
+    });
+  };
+
+  const submitQuiz = async () => {
+    const result = await fetch("https://greenpath-learning-web.onrender.com/quiz/quizzes/submit", {
+      method: "POST",
+      body: JSON.stringify({ quizId: quizId, userId: JSON.parse(localStorage.getItem("user"))._id, answers: answers }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await result.json();
+    console.log(data);
   };
 
   const nextQuiz = () => {
@@ -177,8 +205,8 @@ const Quiz = () => {
               return (
                 <button
                   key={idx}
-                  className="px-4 py-4 border border-gray-400 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300"
-                  onClick={() => check(r)}
+                  className={`px-4 py-4 border-2 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300 ${answers[count].selectedOption == idx ? "border-cyan-400 shadow-cyan-400/10" : "border-gray-400"}`}
+                  onClick={() => saveAnswer(idx, allQuest[count]?._id)}
                 >
                   {r}
                 </button>
@@ -202,7 +230,7 @@ const Quiz = () => {
           </button>
           <div className="prog text-gray-400">{count + 1}/4</div>
           {count === 3 ? (
-            <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer rounded transition-colors duration-300">
+            <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer rounded transition-colors duration-300" onClick={submitQuiz}>
               Submit
             </button>
           ) : (
