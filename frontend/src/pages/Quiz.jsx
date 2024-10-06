@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const chapters = [
   {
@@ -32,14 +33,22 @@ const Quiz = () => {
   const [answers, setAnswers] = useState([{ questionId: null, selectedOption: null }, { questionId: null, selectedOption: null }, { questionId: null, selectedOption: null }, { questionId: null, selectedOption: null }]);
   const [quizId, setQuizId] = useState("");
 
+  const params = useParams();
+
   const allQuestions = async () => {
+    console.log(params);
+
+    if (!params.quizid) {
+      return;
+    }
+
     const resp = await fetch(
-      "https://greenpath-learning-web.onrender.com/quiz/quizzes/"
+      "https://greenpath-learning-web.onrender.com/quiz/quizzes/" + params.quizid
     );
     const data = await resp.json();
-    setAllQuest(data[0].questions);
-    setQuizId(data[0]._id);
-    console.log(data[0].questions);
+    setAllQuest(data.questions);
+    setQuizId(data._id);
+    console.log(data);
     // console.log(allQuest);
   };
   useEffect(() => {

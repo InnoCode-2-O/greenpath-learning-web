@@ -23,7 +23,7 @@ const Navbar = () => {
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
-          to={"/quiz"}
+          to={"/quiz/67014bf220217e100556f16c"}
         >
           Quiz
         </Link>
