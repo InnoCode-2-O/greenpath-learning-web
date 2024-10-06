@@ -22,7 +22,7 @@ const Quiz = () => {
   const [count, setCount] = useState(0);
   const [statement, setStatement] = useState();
   const allQuestions = async () => {
-    const resp = await fetch("http://localhost:5000/quiz/quizzes/");
+    const resp = await fetch("https://greenpath-learning-web.onrender.com/quiz/quizzes/");
     const data = await resp.json();
     setAllQuest(data[0].questions);
     console.log(data[0].questions);

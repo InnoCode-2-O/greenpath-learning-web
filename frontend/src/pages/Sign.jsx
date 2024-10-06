@@ -26,7 +26,7 @@ const Sign = () => {
     // JSON.parse() is a method in js used to convert a JSON string into js object
 
     if (isSignUp) {
-      const result = await fetch("http://localhost:5000/register", {
+      const result = await fetch("https://greenpath-learning-web.onrender.com/register", {
         method: "Post",
         body: JSON.stringify({ name: name, email: email, password: password }),
         headers: {
@@ -42,7 +42,7 @@ const Sign = () => {
     }
 
     if (!isSignUp) {
-      const result = await fetch("http://localhost:5000/login", {
+      const result = await fetch("https://greenpath-learning-web.onrender.com/login", {
         method: "post",
         body: JSON.stringify({ email: email, password: password }),
         headers: {
