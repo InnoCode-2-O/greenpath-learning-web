@@ -29,6 +29,12 @@ const Navbar = () => {
         </Link>
         <Link
           className="text-sm font-medium hover:underline underline-offset-4"
+          to={"https://nemesisas14.itch.io/sdg-game-1"}
+        >
+          Play
+        </Link>
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4"
           to={"/achivements"}
         >
           Achivements

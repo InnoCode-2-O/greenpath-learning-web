@@ -15,6 +15,14 @@ const chapters = [
   },
 ];
 
+const sdg12Images = [
+  "https://media.gettyimages.com/id/629358800/photo/generating-growth-by-joining-forces.jpg?s=612x612&w=0&k=20&c=L0zf6AG7vuywKCfzMWwAjbX8gKtYOvAsymSZATO-a9w=",
+  "https://media.gettyimages.com/id/1410464793/photo/trees-are-planted-on-coins-in-human-hands-with-green-natural-backgrounds-plant-growth-ideas.jpg?s=612x612&w=0&k=20&c=xp1dVzUIzIN5-4D6oQZP7fBtRxCo558vc4yGiMn-Rv8=",
+  "https://media.gettyimages.com/id/1463617670/photo/laptop-farm-and-engineer-team-together-at-night-for-renewable-energy-power-and-wind-turbine.jpg?s=612x612&w=0&k=20&c=9RqksmEWMlPRZAtjXsQSjTAWKzymkPTzLOxP1SuP5Vg=",
+  "https://media.gettyimages.com/id/614850692/photo/handsome-man-riding-bicycle-beside-the-modern-office-building.jpg?s=612x612&w=0&k=20&c=-Nrkzixujc3a7BBb1EmkR6QwdpdcPlO6PcAIXHeYC4Q=",
+  "https://media.gettyimages.com/id/1410464793/photo/trees-are-planted-on-coins-in-human-hands-with-green-natural-backgrounds-plant-growth-ideas.jpg?s=612x612&w=0&k=20&c=xp1dVzUIzIN5-4D6oQZP7fBtRxCo558vc4yGiMn-Rv8=",
+];
+
 const Quiz = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allQuest, setAllQuest] = useState();
@@ -22,7 +30,9 @@ const Quiz = () => {
   const [count, setCount] = useState(0);
   const [statement, setStatement] = useState();
   const allQuestions = async () => {
-    const resp = await fetch("https://greenpath-learning-web.onrender.com/quiz/quizzes/");
+    const resp = await fetch(
+      "https://greenpath-learning-web.onrender.com/quiz/quizzes/"
+    );
     const data = await resp.json();
     setAllQuest(data[0].questions);
     console.log(data[0].questions);
@@ -153,19 +163,20 @@ const Quiz = () => {
         <div className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-left">
           {allQuest ? allQuest[count]?.title : console.log()}
         </div>
-        <div className="">
-          {/* {allQuest ? (
-            <img className="w-[200px]" src={allQuest[count]?.image} />
+        <div className="flex justify-center">
+          {allQuest ? (
+            <img className="w-[300px]" src={sdg12Images[count]} />
           ) : (
             <div></div>
-          )} */}
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 w-full">
           {allQuest ? (
-            allQuest[count]?.options.map((r) => {
+            allQuest[count]?.options.map((r, idx) => {
               return (
                 <button
+                  key={idx}
                   className="px-4 py-4 border border-gray-400 rounded-md text-base md:text-lg shadow-lg cursor-pointer text-center hover:bg-gray-100 transition-colors duration-300"
                   onClick={() => check(r)}
                 >
@@ -190,12 +201,18 @@ const Quiz = () => {
             Prev
           </button>
           <div className="prog text-gray-400">{count + 1}/4</div>
-          <button
-            className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded transition-colors duration-300 next"
-            onClick={nextQuiz}
-          >
-            Next
-          </button>
+          {count === 3 ? (
+            <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer rounded transition-colors duration-300">
+              Submit
+            </button>
+          ) : (
+            <button
+              className="px-4 py-2 hover:bg-gray-200 cursor-pointer rounded transition-colors duration-300 next"
+              onClick={nextQuiz}
+            >
+              Next
+            </button>
+          )}
         </div>
       </main>
     </section>
